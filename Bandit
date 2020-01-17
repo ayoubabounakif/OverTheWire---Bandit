@@ -1,0 +1,157 @@
+	COMMANDS
+
+# {random_directory_name} is just a random directory where you can create files or directories and has the permissions you want and you’re able to create it in the /tmp dir
+
+Level 5 —> 6
+	find maybehere* -type f -size 1033c
+
+Level 6 —> 7
+	find . -size 33c -group bandit6 -user bandit7 | grep password
+
+Level 7 —> 8
+	cat data.txt | grep millionth
+
+Level 8 —> 9
+	cat data.txt | sort | uniq -u
+
+Level 9 —> 10
+	strings data.txt | grep “="
+	
+Level 10 —> 11
+	base64 —decode data.txt
+
+Level 11 —> 12
+	cat data.txt | tr 'A-Za-z' 'N-ZA-Mn-za-m'
+	
+Level 12 —> 13
+	xxd -r data.txt output.bin
+	file output.bin —> (gzip compressed data)
+	zcat output.bin —> (bzip2 compressed data)
+
+Because cat commands reads from STDIN by default and writes to STDOUT by default, we then can use pipe to fuel zcat’s output into bzcat, and bzcat’s output to file -
+
+	zcat output.bin | bzcat | zcat | file - —> POSIX tar archive
+	zcat output.bin | bzcat | zcat | tar xO | tar xO | bzcat | tar xO | zcat | file - —> ASCII text
+
+Now rerun the command without file - to see the content of the ASCII file instead of the information about it.
+
+	zcat output.bin | bzcat | zcat | file - —> POSIX tar archive
+	zcat output.bin | bzcat | zcat | tar xO | tar xO | bzcat | tar xO | zcat
+
+Level 13 —> 14
+	ssh bandit14@localhost -i sshkey.private
+
+Level 14 —> 15
+	echo 4wcYUJFw0k0XLShlDzztnTBHiqxU3b3e | nc localhost 30000
+
+Level 15 —> 16
+	echo BfMYroe26WYalil77FoDi9qh59eK5xNr | openssl s_client -quiet -connect localhost:30001
+
+Level 16 —> 17
+	nc -z -v localhost 31000-32000 (-z scan only for open ports and -v is for a more verbose output)
+	|| nmap -sV -p 31000-32000 172.0.0.1
+	echo cluFn7wTiGryunymYOu4RcffSxQluehd | openssl s_client -quiet -connect localhost:31960
+	cd ../../tmp/{random_directory_name}
+	echo cluFn7wTiGryunymYOu4RcffSxQluehd | openssl s_client -quiet -connect localhost:31960 > server.key
+	ssh bandit17@localhost -i server.key
+
+Level 17 —> 18
+	diff passwords.new passwords.old
+
+Level 18 —> 19
+	ssh -t bandit19@bandit.labs.overthewire.org -p 2220
+	cat readme
+
+Level 19 —> 20
+	./bandit20-do cat /etc/bandit_pass/bandit20
+
+Level 20 —> 21
+	echo "GbKksEFF4yrVs6il55v6gwY5aVje5f0j" | nc -l localhost -p 30003 &
+
+Level 21 —> 22
+	cd /etc/cron.d/
+	cat cronjob_bandit22
+	cd /usr/bin/
+	cat cronjob_bandit22.sh
+	cd /tmp/
+	cat t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+
+Level 22 —> 23 (Solved using a basic shell script)
+	#!/bin/bash
+
+	myname=bandit23
+	mytarget=$(echo I am user $myname | md5sum | cut -d ‘ ‘ -f 1)
+	echo “Copying passfile /etc/bandit/pass/$myname to /tmp/$mytarget"
+	cat /tmp/8ca319486bfbbc3663ea0fbe81326349
+
+Level 23 —> 24
+	cd /tmp/{random_directory_name}
+	touch script.sh
+	chmod 777 script.sh
+	touch password
+	chmod 666 password
+
+	script.sh ==>	cat /etc/bandit_pass/bandit24 > /tmp/{random_directory_name}/password
+
+	cp script.sh /var/spool/bandit24/
+
+Level 24 -> 25
+	mkdir /tmp/{random_directory_name}
+	cd /tmp/{random_directory_name}
+	touch script.sh
+	chmod 777 script.sh
+
+	script.sh ==>	#!/bin/bash
+					passwd24=UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ
+					for i in {0000..9999}
+  					do
+    						echo $passwd24 $i >> passwd.txt
+  					done
+
+	# If the script doesn’t find the password, you can add the sleep command after each try of brute-forcing the password
+	# you can also divide the loop twice, to try combinations from 0000 to 5000 and from 5000 to 9999
+	sh script.sh
+	cat passwd.txt | nc localhost 30002
+	
+
+Level 25 —> 26
+	cat /etc/passwd | grep bandit26
+	cat /usr/bin/showtext
+	v to enter vim using more
+	:e /etc/bandit_pass/bandit26
+	:shell
+	:set shell=/bin/bash
+
+Level 26 —> 27
+	./bandit27-do cat /etc/bandit_pass/bandit27
+
+Level 27 —> 28
+	cd /tmp/
+	mkdir test_dir
+	cd test_dir
+	git clone ssh://bandit27-git@localhost/home/bandit27-git/repo
+	cd repo
+	cat README
+
+Level 28 —> 29
+	git diff {commit_1} {commit_2}
+	git checkout {commit} | cat README.md
+
+Level 29 —> 30
+	git log —all
+	git diff {commit_1} {commit_2} {commit_3}
+
+Level 30 —> 31
+	git tag
+	git show secret
+
+Level 31 —> 32
+	touch key.txt
+	echo “Can I come in?” > key.txt
+	git add -f key.txt
+	git commit -m “{Message}”
+	git push origin master
+
+Level 32 —> 33
+	$0
+	cat /etc/bandit_pass/bandit33
